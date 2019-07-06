@@ -19,8 +19,8 @@ for (let i=0; i<2; i++){
             appDate.expenses[exp1] = exp2;
         } else {
             i--;
-        };
-};
+        }
+}
 
 appDate.moneyPerDay = appDate.budget / 30;
 
@@ -34,4 +34,4 @@ if (appDate.moneyPerDay < 100) {
     console.log("Высокий уровень достатка");
 } else {
     console.log("Произошла ошибка");
-};
+}
