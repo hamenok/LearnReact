@@ -83,6 +83,6 @@ let appData = {
     }
 };
 
-for (value in appData) {
+for (let value in appData) {
     console.log("Наша программа включает в себя данные: " + value);
 }
