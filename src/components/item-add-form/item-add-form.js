@@ -10,7 +10,7 @@ export default class ItemAddPanel extends Component {
     onLabelChange = (e) => {
         this.setState({
             label: e.target.value
-        })
+        });
     };
 
     onSubmit = (e) => {
@@ -22,8 +22,6 @@ export default class ItemAddPanel extends Component {
     };
     
     render() {
-
-        const { onItemAdded } = this.props;
 
         return (
             <form className="item-add-form d-flex"
@@ -38,6 +36,6 @@ export default class ItemAddPanel extends Component {
                 </button>
             </form>
         );
-    }
+    };
 };
 
