@@ -1,0 +1,12 @@
+.error-indicator {
+    display: block;
+    font-size: 1rem;
+    color: tomato;
+    width: 270px;
+    margin-left: 50%;
+}
+
+.error-indicator .boom {
+    font-size: 3rem;
+    display: flex;
+}

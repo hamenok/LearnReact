@@ -18,3 +18,7 @@
 .random-planet .list-group-item .term{
     margin-right: .5rem;
 }
+
+.random-planet .lds-css {
+    margin-left: 50%;
+}
