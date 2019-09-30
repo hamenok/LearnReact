@@ -6,9 +6,14 @@ import RandomPlanet from '../random-planet';
 import './app.css';
 import ErrorIndicator from '../error-indicator';
 import PeoplePage from '../people-page';
-
+import ItemList from '../item-list';
+import PersonDetails from '../person-details';
+import SwapiService from '../../services/swapi-service';
+import Row from '../row';
 
 export default class App extends Component {
+
+    swapiService = new SwapiService();
 
     state = {
         showRandomPlanet: true,
@@ -35,6 +40,17 @@ render() {
         <RandomPlanet /> :
         null;
 
+        const itemList = (
+            <ItemList 
+                onItemSelected={this.onPersonSelected}
+                getData={this.swapiService.getAllPlanets}
+                renderItem={(item) => (<span>{item.name} <button>!</button></span>)} />
+        );
+
+        const personalDetails = (
+            <PersonDetails personId={this.state.selectedPerson}/>
+        );
+
         return(
             <div className="stardb-app">
                 <Header />
@@ -48,6 +64,11 @@ render() {
                 </button>
             </div>  
                 <PeoplePage/>
+
+                
+                <Row left={itemList} right={PersonDetails}/>
+
+
             </div>
         );
     };
