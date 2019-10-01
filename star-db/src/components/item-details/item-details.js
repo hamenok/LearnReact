@@ -2,24 +2,39 @@ import React, { Component } from 'react';
 import SwapiService from '../../services/swapi-service';
 import Spinner from '../spinner'
 
-import './person-details.css';
+import './item-details.css';
 
-export default class PersonDetails extends Component {
+
+const Record = ({ item, field, label }) => {
+    return (
+        <li className="list-group-item">
+            <span className="term">{label}: </span>
+            <span>{ field }</span>
+        </li>
+    );
+};
+
+export {
+    Record
+};
+
+export default class ItemDetails extends Component {
     
     swapiService = new SwapiService();
 
     state = {
-        person: null,
+        item: null,
         loading: true,
-        error: false
+        error: false,
+        image: null
     };
 
     componentDidMount() {
-        this.updatePerson();
+        this.updateItem();
     }
 
     componentDidUpdate(prevProps) {
-        if(this.props.personId !==  prevProps.personId) {
+        if(this.props.itemId !==  prevProps.itemId) {
             this.setState({loading: true});
             this.updatePerson();
         };
@@ -32,18 +47,18 @@ export default class PersonDetails extends Component {
         });
     };
 
-    updatePerson() { 
-        const { personId } = this.props;
+    updateItem() { 
+        const { itemId, getData, getImageUrl } = this.props;
 
-        if(!personId) {
+        if(!itemId) {
             return;
         };
 
-        this.swapiService
-                .getPerson(personId)
-                .then((person) => {
+        getData(itemId)
+            .then((item) => {
                     this.setState({
-                        person,
+                        item,
+                        image: getImageUrl(item),
                         loading: false
                     });
                 })
@@ -52,14 +67,15 @@ export default class PersonDetails extends Component {
 
 
     render() {
-        if (!this.state.person) {
+        if (!this.state.item) {
             return <span>Select a person from a list</span>
         }
 
-        const { person, error, loading } = this.state;
+        const { item, error, loading, image } = this.state;
         const spinner = loading ? <Spinner /> : null;
         const hasData = !(loading || error);
-        const content = hasData ? <PersonView person={person}/> : null;
+        const test = this.props.children;
+        const content = hasData ? <PersonView item={item} image={image} test={test}/> : null;
         console.log(loading);
         return (
             <div className="person-details card">
@@ -70,29 +86,22 @@ export default class PersonDetails extends Component {
     };
 };
 
-const PersonView = ({person}) => {
+const PersonView = ({item, image, test}) => {
     const { id, name, gender, 
-        birthYear, eyeColor } = person;
+        birthYear, eyeColor } = item;
     return(
         <React.Fragment>
                 <img className="person-image"
-                    src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}
+                    src={image}
                     alt=""/>
                 <div className="card-body">
                     <h4>{name}</h4>
                     <ul className="list-group list-group-flush">
-                        <li className="list-group-item">
-                            <span className="term">Gender: </span>
-                            <span>{gender}</span>
-                        </li>
-                        <li className="list-group-item">
-                            <span className="term">Birth Year: </span>
-                            <span>{birthYear}</span>
-                        </li>
-                        <li className="list-group-item">
-                            <span className="term">Eye Color: </span>
-                            <span>{eyeColor}</span>
-                        </li>
+                        {
+                            React.Children.map(test, (child) => {
+                                return child;
+                            })    
+                        }
                     </ul>
                 </div>
         </React.Fragment>

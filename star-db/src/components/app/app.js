@@ -5,9 +5,8 @@ import RandomPlanet from '../random-planet';
 
 import './app.css';
 import ErrorIndicator from '../error-indicator';
-import PeoplePage from '../people-page';
 import ItemList from '../item-list';
-import PersonDetails from '../person-details';
+import ItemDetails, { Record } from '../item-details';
 import SwapiService from '../../services/swapi-service';
 import Row from '../row';
 
@@ -39,7 +38,7 @@ render() {
     const planet = this.state.showRandomPlanet ? 
         <RandomPlanet /> :
         null;
-
+        
         const itemList = (
             <ItemList 
                 onItemSelected={this.onPersonSelected}
@@ -47,26 +46,47 @@ render() {
                 renderItem={(item) => (<span>{item.name} <button>!</button></span>)} />
         );
 
-        const personalDetails = (
-            <PersonDetails personId={this.state.selectedPerson}/>
+        const { getPerson, getStarship,
+                getPersonImage,
+                getStarshipImage } = this.swapiService;
+
+        const personDetails = (
+            <ItemDetails
+                itemId={11}
+                getData={getPerson}
+                getImageUrl={getPersonImage} >
+                
+                <Record field="gender" label="Gender" />
+                <Record field="eyeColor" label="Eye Color" />
+            </ItemDetails>
+        );
+
+        const starShipDetails = (
+            <ItemDetails 
+                itemId={5}
+                getData={getStarship} 
+                getImageUrl={getStarshipImage}>
+
+                
+            </ItemDetails>
         );
 
         return(
             <div className="stardb-app">
                 <Header />
-                { planet }
+                {/* { planet }
 
-            <div className="row mb2 button-row">
-                <button 
-                    className="toggle-planet btn btn-warning btn-lg"
-                    onClick={this.toggleRandomPlanet}>
-                        Toggle Random Planet
-                </button>
-            </div>  
-                <PeoplePage/>
+                <div className="row mb2 button-row">
+                    <button 
+                        className="toggle-planet btn btn-warning btn-lg"
+                        onClick={this.toggleRandomPlanet}>
+                            Toggle Random Planet
+                    </button>
+                </div>  
+                <PeoplePage/> */}
 
                 
-                <Row left={itemList} right={PersonDetails}/>
+                <Row left={personDetails} right={starShipDetails}/>
 
 
             </div>
