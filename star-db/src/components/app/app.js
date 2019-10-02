@@ -9,6 +9,15 @@ import ItemList from '../item-list';
 import ItemDetails, { Record } from '../item-details';
 import SwapiService from '../../services/swapi-service';
 import Row from '../row';
+import {
+    PersonList,
+    PlanetList,
+    StarshipList,
+    PersonDetails,
+    PlanetDetails,
+    StarshipDetails
+} from '../sw-components';
+
 
 export default class App extends Component {
 
@@ -39,37 +48,13 @@ render() {
         <RandomPlanet /> :
         null;
         
-        const itemList = (
-            <ItemList 
-                onItemSelected={this.onPersonSelected}
-                getData={this.swapiService.getAllPlanets}
-                renderItem={(item) => (<span>{item.name} <button>!</button></span>)} />
-        );
-
+        
         const { getPerson, getStarship,
-                getPersonImage,
-                getStarshipImage } = this.swapiService;
-
-        const personDetails = (
-            <ItemDetails
-                itemId={11}
-                getData={getPerson}
-                getImageUrl={getPersonImage} >
-                
-                <Record field="gender" label="Gender" />
-                <Record field="eyeColor" label="Eye Color" />
-            </ItemDetails>
-        );
-
-        const starShipDetails = (
-            <ItemDetails 
-                itemId={5}
-                getData={getStarship} 
-                getImageUrl={getStarshipImage}>
-
-                
-            </ItemDetails>
-        );
+            getPersonImage,
+            getStarshipImage,
+            getAllPlanets,
+            getAllPeople,
+            getAllStarships } = this.swapiService;
 
         return(
             <div className="stardb-app">
@@ -84,9 +69,37 @@ render() {
                     </button>
                 </div>  
                 <PeoplePage/> */}
+                {/* {itemList} */}
 
+
+                <div className="row mb2">
+                    <div className="col-md-6">
+                        <PersonList 
+                            onItemSelected={this.onPersonSelected}>
+                        </PersonList>
+
+                        <PlanetList 
+                            onItemSelected={this.onPersonSelected}>
+                        </PlanetList>
+
+                        <StarshipList 
+                            onItemSelected={this.onPersonSelected}>
+                        </StarshipList>
+                    </div>
+                    <div className="col-md-6">
+                        <PersonDetails itemId={11} />
+                        <PlanetDetails itemId={5} />
+                        <StarshipDetails itemId={9} />
+                    </div>
+                </div>
+
+
+
+            
+
+            
                 
-                <Row left={personDetails} right={starShipDetails}/>
+                {/* <Row left={personDetails} right={starShipDetails}/> */}
 
 
             </div>

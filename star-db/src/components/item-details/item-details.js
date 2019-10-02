@@ -9,7 +9,7 @@ const Record = ({ item, field, label }) => {
     return (
         <li className="list-group-item">
             <span className="term">{label}: </span>
-            <span>{ field }</span>
+            <span>{ item[field] }</span>
         </li>
     );
 };
@@ -87,8 +87,7 @@ export default class ItemDetails extends Component {
 };
 
 const PersonView = ({item, image, test}) => {
-    const { id, name, gender, 
-        birthYear, eyeColor } = item;
+    const { name } = item;
     return(
         <React.Fragment>
                 <img className="person-image"
@@ -99,7 +98,7 @@ const PersonView = ({item, image, test}) => {
                     <ul className="list-group list-group-flush">
                         {
                             React.Children.map(test, (child) => {
-                                return child;
+                                return React.cloneElement(child, { item });
                             })    
                         }
                     </ul>

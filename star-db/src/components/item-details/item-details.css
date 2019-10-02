@@ -1,7 +1,7 @@
 .item-details {
-    display: flex;
+    
     margin-top: 1rem;
-    flex-direction: row;
+    
     padding: 1rem;
 }
 
@@ -17,4 +17,15 @@
 
 .item-details .list-group-item .term{
     margin-right: .5rem;
+}
+
+.person-details {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1rem;
+}
+
+.person-image {
+    width: 50%;
+    height: 50%;
 }
