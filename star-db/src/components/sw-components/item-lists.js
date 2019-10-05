@@ -1,17 +1,8 @@
 import React from 'react';
 import ItemList from '../item-list';
-import { withData } from '../hoc-helpers';
-import SwapiService from '../../services/swapi-service';
+import { withData, withSwapiService } from '../hoc-helpers';
 
-const swapiService = new SwapiService();
-
-const {
-    getAllPeople,
-    getAllPlanets,
-    getAllStarships
-} = swapiService;
-
-const withChildFunction = (Wrapped, fn) => {
+const withChildFunction = (fn) => (Wrapped) => {
     return (props) => {
         return (
             <Wrapped {...props}>
@@ -24,14 +15,36 @@ const withChildFunction = (Wrapped, fn) => {
 const renderName = ({ name }) => <span>{name}</span>;
 const renderModelAndName = ({ model, name }) =><span>{name} ({model})</span>;
 
-const ListWithChildren = withChildFunction(
-    ItemList,
-    renderName
-);
+const mapPersonMethodsToProps = (swapiService) => {
+    return {
+        getData: swapiService.getAllPeople
+    };
+};
 
-const PersonList = withData(ListWithChildren, getAllPeople);
-const PlanetList = withData(ListWithChildren, getAllPlanets);
-const StarshipList = withData(ListWithChildren, getAllStarships);
+const mapPlanetMethodsToProps = (swapiService) => {
+    return {
+        getData: swapiService.getAllPlanets
+    };
+};
+
+const mapStarshipMethodsToProps = (swapiService) => {
+    return {
+        getData: swapiService.getAllStarships
+    };
+};
+
+const PersonList = withSwapiService(mapPersonMethodsToProps)(
+                        withData(
+                            withChildFunction(renderName)(
+                                ItemList)));
+const PlanetList = withSwapiService(mapPlanetMethodsToProps)(
+                        withData(
+                            withChildFunction(renderName)(
+                                ItemList)));
+const StarshipList = withSwapiService(mapStarshipMethodsToProps)(
+                        withData(
+                            withChildFunction(renderModelAndName)(
+                                ItemList)));
 
 export {
     PersonList,

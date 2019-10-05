@@ -34,9 +34,11 @@ export default class ItemDetails extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(this.props.itemId !==  prevProps.itemId) {
+        if(this.props.itemId !==  prevProps.itemId ||
+           this.props.getData !==  prevProps.getData ||
+           this.props.getImageUrl !==  prevProps.getImageUrl) {
             this.setState({loading: true});
-            this.updatePerson();
+            this.updateItem();
         };
     }
 
@@ -62,7 +64,7 @@ export default class ItemDetails extends Component {
                         loading: false
                     });
                 })
-                .catch(this.onError);
+            .catch(this.onError);
     };
 
 
@@ -76,7 +78,6 @@ export default class ItemDetails extends Component {
         const hasData = !(loading || error);
         const test = this.props.children;
         const content = hasData ? <PersonView item={item} image={image} test={test}/> : null;
-        console.log(loading);
         return (
             <div className="person-details card">
                 {spinner}
