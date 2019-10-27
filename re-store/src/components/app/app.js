@@ -1,7 +1,5 @@
-import React, { Component } from 'react';
-import ErrorIndicator from '../error-indicator';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import { BookstoreServiceProvider } from '../bookstore-service-context';
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import { HomePage, CartPage } from '../pages';
 import ShopHeader from '../shop-header';
 
