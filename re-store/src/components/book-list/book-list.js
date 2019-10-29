@@ -6,6 +6,8 @@ import { fetchBooks, bookAddedToCart } from '../../actions';
 import { compose } from '../../utils';
 import Spinner from '../spiner';
 import ErrorIndicatoer from '../error-indicator';
+import { bindActionCreators } from 'redux';
+
 
 import './book-list.css';
 
@@ -44,21 +46,18 @@ class BookListContainer extends Component {
         }
 
         return <BookList books={books} onAddedToCart={onAddedToCart} />
-       
     }
 };
 
-
-
-const mapStateToProps = ({ books, loading, error }) => {
+const mapStateToProps = ({ bookList: { books, loading, error }}) => {
     return { books, loading, error };
 };
 
 const mapDispatchToProps = (dispatch, { bookstoreService }) => {
-    return {
-        fetchBooks: fetchBooks(bookstoreService, dispatch),
-        onAddedToCart: (id) => dispatch(bookAddedToCart(id))
-    };
+    return bindActionCreators ({
+        fetchBooks: fetchBooks(bookstoreService),
+        onAddedToCart: bookAddedToCart
+    }, dispatch);
 };
 
 //export default withBookstoreService()(connect(mapStateToProps, mapDispatchToProps)(BookList));
